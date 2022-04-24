@@ -46,7 +46,7 @@ class Prijava{
 
     }
 
-    public function update(mysqli $conn){ //prosledjujemo samo konekciju, jer radimo nad userom ciji id vec imamo
+    public function update(mysqli $conn){ ///prosledjujemo samo konekciju, jer radimo nad userom ciji id vec imamo
         $q = "UPDATE prijave set predmet='$this->predmet', katedra='$this->katedra', sala='$this->sala', 
         datum='this->datum'";
         return $conn->querry($q);
