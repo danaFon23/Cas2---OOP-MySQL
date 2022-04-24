@@ -1,7 +1,7 @@
 <?php
 
-require "dbBroker.php";                       // potreban nam je dbBroker
-require "model/user.php" ;                   //iz modela nam je potreban user.php
+require "dbBroker.php";                 // potreban nam je dbBroker da vdimo da li postoji taj korisnik koji se loguje
+require "model/user.php";               //iz modela nam je potreban user.php
 
 
 session_start();                            //zapocinjemo sesiju da bi pamtili da se user ulogovao
@@ -12,7 +12,7 @@ if(isset($_POST['username']) && isset($_POST['password']))
 
    // $conn = new mysqli();  //Pregazena konekcija iz DB brokera
 
-    $korisnik = new User(null,$uname,$upass);      //kreiramo korisnika
+    $korisnik = new User(1,$uname,$upass);      //kreiramo korisnika
     //$odg = $korisnik->logInUser($uname,$upass, $conn); //ne moramo da pozivamo nad korisnikom f-ju, vec mozemo nad klasom(sledeci red)
     $odg = User::logInUser($korisnik, $conn); //pristup STATICKIM f-jama preko KLASE  //ovde je vidljiva konekcija
     //odg iz baze na osnovu f-je iz Usera
@@ -34,8 +34,6 @@ if(isset($_POST['username']) && isset($_POST['password']))
         `;
     }
 }
-
-
 
 ?>
 
@@ -68,3 +66,6 @@ if(isset($_POST['username']) && isset($_POST['password']))
     </div>
 </body>
 </html>
+
+
+

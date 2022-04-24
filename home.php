@@ -1,3 +1,29 @@
+<?php
+
+require "dbBroker.php";      // Potreban nam je jer cemo kroz njega keirati konekciju
+require "model/prijava.php";      //require nam sluzi da povezemo sa drugim fajlovima
+
+session_start();
+
+//ako ne postoji sesija sa mojim user id-jem ,vracamo se na index stranicu, tj. zabranjuje da neko prijavi klk a nije ulogovan
+if(!isset($_SESSION['user_id'])){ //$_SESSION['user_id'] iz indexa
+    header('Location:index.php'); //postavljamo header da ga vrati na index.php
+    exit();  //exit jer ne zelimo da se nista dalje izvrsava
+}
+
+$rezultat = Prijava::getAll($conn); //getAll se radi nad klasom, jer je staticka f-ja //prikazujemo sve prijave
+if(!$rezultat){
+    echo "Nastala je greska prilikom izvodjenja upita.<br>";
+    die(); //isto sto i exit()
+}
+
+if($rezultat->num_of_rows==0){
+    echo "Nema prijava na kolokvijume";
+    die();
+}
+else{
+
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -46,7 +72,12 @@
             </tr>
             </thead>
             <tbody>
-           
+                
+            <?php
+                while ($red=$podaci->fetch_array()) : //fetch_array() fija za prikazivanje svega iz niza(tj. iz baze, gde imamo prijavljene ispite), preko asocijativnog niza(dobijamo id,predmet,katedra,sala,datum)
+                //prolazi sve dok rezultat ima naredni red koji moze da fecuje.
+                //ovaj kod koji sledi se ponavlja.
+            ?>
                 <tr>
                     <td><?php echo $red["predmet"] ?></td>
                     <td><?php echo $red["katedra"] ?></td>
@@ -60,7 +91,13 @@
                     </td>
 
                 </tr>
-            }
+
+            <?php
+                endwhile; //moze i else kao sto smo proslog puta radili, mozemo kombinovati kako  nam se svidja
+                
+    }//zatvaranje else-a sa pocetka
+            ?>
+            
             </tbody>
         </table>
         <div class="row" >
@@ -198,3 +235,5 @@
 
 </body>
 </html>
+
+
