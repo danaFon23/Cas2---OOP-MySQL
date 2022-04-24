@@ -51,6 +51,9 @@ class Prijava{
         datum='this->datum'";
         return $conn->querry($q);
     }
+    
+
+    //Napravili hendler fajl, koji predstavlja logiku ovih f-ja. Tamo ce biti AJAX.
 
 }
 
