@@ -8,6 +8,7 @@ session_start();
 //ako ne postoji sesija sa mojim user id-jem ,vracamo se na index stranicu, tj. zabranjuje da neko prijavi klk a nije ulogovan
 if(!isset($_SESSION['user_id'])){ //$_SESSION['user_id'] iz indexa
     header('Location:index.php'); //postavljamo header da ga vrati na index.php
+    echo "Neka greska";
     exit();  //exit jer ne zelimo da se nista dalje izvrsava
 }
 
@@ -17,7 +18,7 @@ if(!$rezultat){
     die(); //isto sto i exit()
 }
 
-if($rezultat->num_of_rows==0){
+if($rezultat->num_rows==0){
     echo "Nema prijava na kolokvijume";
     die();
 }
@@ -74,7 +75,7 @@ else{
             <tbody>
                 
             <?php
-                while ($red=$podaci->fetch_array()) : //fetch_array() fija za prikazivanje svega iz niza(tj. iz baze, gde imamo prijavljene ispite), preko asocijativnog niza(dobijamo id,predmet,katedra,sala,datum)
+                while ($red=$rezultat->fetch_array()) : //fetch_array() fija za prikazivanje svega iz niza(tj. iz baze, gde imamo prijavljene ispite), preko asocijativnog niza(dobijamo id,predmet,katedra,sala,datum)
                 //prolazi sve dok rezultat ima naredni red koji moze da fecuje.
                 //ovaj kod koji sledi se ponavlja.
             ?>
@@ -122,20 +123,20 @@ else{
 <div class="modal fade" id="myModal" role="dialog" >
     <div class="modal-dialog">
 
-        <!--Sadrzaj modala-->
+        <!--Sadrzaj ZAKAZI modala-->
         <div class="modal-content" >
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
                 <div class="container prijava-form">
-                    <form action="#" method="post" id="dodajForm">
+                    <form action="#" method="post" id="dodajForm">   <!-- action =# xnaci da nas vraca na home stranicu. Id nam je bitan, jer cemo imati 3 forme tipa post, pa nam j bitno da ih razlikujemo -->
                         <h3 style="color: black; text-align: center" >Zakazi kolokvijum</h3>
                         <div class="row">
                             <div class="col-md-11 ">
                                 <div class="form-group">
                                     <label for="">Predmet</label>
-                                    <input type="text" style="border: 1px solid black" name="predmet" class="form-control"/>
+                                    <input type="text" style="border: 1px solid black" name="predmet" class="form-control"/> <!-- value dobijamo iz samog inputa-->
                                 </div>
                                 <div class="form-group">
                                 <label for="">Katedra</label>
@@ -152,8 +153,8 @@ else{
                                 </div>
                                 </div>
                                 <div class="form-group">
-                                    <button id="btnDodaj" type="submit" class="btn btn-success btn-block"
-                                    tyle="background-color: orange; border: 1px solid black;">Zakazi</button>
+                                    <button id="btnDodaj" type="submit" class="btn btn-success btn-block" 
+                                    style="background-color: orange; border: 1px solid black;">Zakazi</button>  <!-- class = klasa za ispisivanje, ako si kliknuo na submit, onda dodaje odgovor-->
                                 </div>
                             </div>
                     </div>
@@ -227,7 +228,7 @@ else{
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script src="js/main.js"></script>
+<script src="js/main.js"></script>   <!-- Na kraju smo ukljucili main.js. Iznad je importovan i jquerry i bootstrap-->
 
 <script>
     console.log("Uspesno ste se ulogovali.");
