@@ -22,7 +22,7 @@ class Prijava{
         return $conn->query($query);
     }
     public static function getById ($id, mysqli $conn){
-        $query = "SELECT * from prijave where id=$id";
+        $query = "SELECT * FROM prijave WHERE id=$id";
         $myArray = array();
         $rezultat = $conn->query($query);
         if($rezultat){
@@ -36,20 +36,20 @@ class Prijava{
 
     public function deleteById(mysqli $conn){
         $query = "DELETE FROM prijave where id = $this->id";
-        return $conn->querry($query);
+        return $conn->query($query);
     }
 
     public static function add(Prijava $prijava, mysqli $conn){
         $q = "INSERT INTO prijave(predmet,katedra,sala,datum) VALUES ('$prijava->predmet', '$prijava->katedra',
         '$prijava->sala', '$prijava->datum')";  //mora jednostruki navodnici, da bi znali da je u pitanju string
-        return $conn->querry($q);
+        return $conn->query($q);
 
     }
 
     public function update(mysqli $conn){ ///prosledjujemo samo konekciju, jer radimo nad userom ciji id vec imamo
         $q = "UPDATE prijave set predmet='$this->predmet', katedra='$this->katedra', sala='$this->sala', 
         datum='this->datum'";
-        return $conn->querry($q);
+        return $conn->query($q);
     }
     
 
